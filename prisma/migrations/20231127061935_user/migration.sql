@@ -3,16 +3,16 @@ CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "userTypeId" INTEGER NOT NULL,
+    "userTypeId" INTEGER DEFAULT 3,
     "firstname" TEXT NOT NULL,
     "lastname" TEXT NOT NULL,
-    "phone" TEXT NOT NULL,
-    "vatNumber" TEXT NOT NULL,
-    "companyName" TEXT NOT NULL,
-    "city" TEXT NOT NULL,
-    "street" TEXT NOT NULL,
-    "postlCode" TEXT NOT NULL,
-    "country" TEXT NOT NULL,
+    "phone" TEXT,
+    "vatNumber" TEXT,
+    "companyName" TEXT,
+    "city" TEXT,
+    "street" TEXT,
+    "postlCode" TEXT,
+    "country" TEXT,
     "isActive" BOOLEAN DEFAULT true,
     "createdDate" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updatedDate" TIMESTAMP(3),
@@ -32,4 +32,4 @@ CREATE TABLE "UserType" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_userTypeId_fkey" FOREIGN KEY ("userTypeId") REFERENCES "UserType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_userTypeId_fkey" FOREIGN KEY ("userTypeId") REFERENCES "UserType"("id") ON DELETE SET NULL ON UPDATE CASCADE;

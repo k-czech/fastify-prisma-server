@@ -1,13 +1,9 @@
-import Fastify from "fastify";
+import Fastify, { errorCodes } from "fastify";
 import userRoutes from "./modules/user/user.route";
 import { userSchemas } from "./modules/user/user.schema";
 
 const fastifyServer = Fastify({
   logger: true,
-});
-
-fastifyServer.get("/hello", async () => {
-  return { hello: "world" };
 });
 
 const start = async () => {
@@ -21,9 +17,20 @@ const start = async () => {
       done();
     },
     {
-      prefix: "/api/users",
+      prefix: "/api/v1",
     }
   );
+
+  fastifyServer.setErrorHandler((error, _, res) => {
+    if (error.code === errorCodes.FST_ERR_VALIDATION().code) {
+      res.status(422).send({
+        message: "The form contains errors!",
+        code: 422,
+      });
+    } else {
+      res.send(error);
+    }
+  });
 
   try {
     await fastifyServer.listen({
