@@ -1,8 +1,8 @@
 import { buildJsonSchemas } from "fastify-zod";
 import { z } from "zod";
-import { UserId, userCore, userPassword } from "../user/user.schema";
+import { userCore, userPassword } from "../user/user.schema";
 
-const createUserSchema = UserId.extend({
+const createUserSchema = z.object({
   ...userCore,
   password: userPassword.password,
 });
