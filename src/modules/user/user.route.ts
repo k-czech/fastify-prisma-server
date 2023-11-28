@@ -1,32 +1,17 @@
 import { FastifyInstance } from "fastify";
-import { loginUserHandler, registerUserHandler } from "./user.controller";
-import { $ref } from "./user.schema";
+import { getProfile } from "./user.controller";
+import { userRef } from "./user.schema";
 
-const userRoutes = (server: FastifyInstance) => {
-  server.post(
-    "/signUp",
+export const userRoutes = (server: FastifyInstance) => {
+  server.get(
+    "/profile",
     {
       schema: {
-        body: $ref("createUserSchema"),
         response: {
-          201: $ref("createUserResponseSchema"),
+          200: userRef("userResponseSchema"),
         },
       },
     },
-    registerUserHandler
-  );
-  server.post(
-    "/signIn",
-    {
-      schema: {
-        body: $ref("loginUserSchema"),
-        response: {
-          201: $ref("loginUserResponseSchema"),
-        },
-      },
-    },
-    loginUserHandler
+    getProfile
   );
 };
-
-export default userRoutes;

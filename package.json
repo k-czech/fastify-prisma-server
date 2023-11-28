@@ -28,5 +28,8 @@
     "@types/node": "^20.9.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
+  },
+  "prisma": {
+    "seed": "tsnd --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   }
 }

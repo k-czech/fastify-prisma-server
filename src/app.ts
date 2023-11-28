@@ -1,5 +1,7 @@
 import Fastify, { errorCodes } from "fastify";
-import userRoutes from "./modules/user/user.route";
+import { authRoutes } from "./modules/auth/auth.route";
+import { authSchemas } from "./modules/auth/auth.schema";
+import { userRoutes } from "./modules/user/user.route";
 import { userSchemas } from "./modules/user/user.schema";
 
 const fastifyServer = Fastify({
@@ -7,12 +9,13 @@ const fastifyServer = Fastify({
 });
 
 const start = async () => {
-  for (const schema of userSchemas) {
+  for (const schema of [...authSchemas, ...userSchemas]) {
     fastifyServer.addSchema(schema);
   }
 
   fastifyServer.register(
     (app, _opts, done) => {
+      authRoutes(app);
       userRoutes(app);
       done();
     },
