@@ -11,7 +11,7 @@ CREATE TABLE "User" (
     "companyName" TEXT,
     "city" TEXT,
     "street" TEXT,
-    "postlCode" TEXT,
+    "postalCode" TEXT,
     "country" TEXT,
     "isActive" BOOLEAN DEFAULT true,
     "createdDate" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,

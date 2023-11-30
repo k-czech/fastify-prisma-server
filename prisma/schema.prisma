@@ -11,8 +11,8 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
-  email       String   @unique
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
   password    String
   firstname   String
   lastname    String
@@ -23,9 +23,9 @@ model User {
   companyName String?
   city        String?
   street      String?
-  postlCode   String?
+  postalCode  String?
   country     String?
-  isActive    Boolean? @default(true)
+  isActive    Boolean?  @default(true)
   createdDate DateTime? @default(now())
   updatedDate DateTime? @updatedAt
 }

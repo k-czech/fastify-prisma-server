@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { getProfile } from "./user.controller";
+import { getProfile, updateProfile } from "./user.controller";
 import { userRef } from "./user.schema";
 import { authenticateToken } from "../../middlewares/authenticateToken";
 
@@ -15,5 +15,15 @@ export const userRoutes = (server: FastifyInstance) => {
       },
     },
     getProfile
+  );
+  server.patch(
+    "/profile/:id",
+    {
+      preHandler: authenticateToken,
+      schema: {
+        body: userRef("userUpdateSchema"),
+      },
+    },
+    updateProfile
   );
 };

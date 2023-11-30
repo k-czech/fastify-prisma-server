@@ -1,6 +1,7 @@
 import { User } from "@prisma/client";
-import prisma from "../../utils/prisma";
 import { FastifyError, FastifyReply } from "fastify";
+import prisma from "../../utils/prisma";
+import { UserUpdateInput } from "./user.schema";
 
 let error: FastifyError | undefined;
 
@@ -21,4 +22,36 @@ export const getUser = async (email: User["email"], reply: FastifyReply) => {
   }
 
   return user;
+};
+
+export const updateUser = async (id: number, user: UserUpdateInput) => {
+  const {
+    firstname,
+    lastname,
+    phone,
+    vatNumber,
+    companyName,
+    city,
+    street,
+    postalCode,
+    country,
+  } = user;
+  const updatedUser = await prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      firstname,
+      lastname,
+      phone,
+      vatNumber,
+      companyName,
+      city,
+      street,
+      postalCode,
+      country,
+    },
+  });
+
+  return updatedUser;
 };

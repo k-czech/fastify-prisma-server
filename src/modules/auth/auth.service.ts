@@ -55,7 +55,7 @@ export const loginUser = async (input: LoginUserInput, reply: FastifyReply) => {
     reply.code(Number(error.code)).send(error);
   }
 
-  const { email, firstname, lastname, password } = userDB as User;
+  const { email, firstname, lastname, password, id } = userDB as User;
   const isPasswordValid = verifyPassword({
     password: input.password,
     hash: password,
@@ -72,6 +72,7 @@ export const loginUser = async (input: LoginUserInput, reply: FastifyReply) => {
 
   const token = jwt.sign(
     {
+      id,
       email,
       firstname,
       lastname,

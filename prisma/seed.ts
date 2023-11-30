@@ -12,6 +12,30 @@ const main = async () => {
       password: (await hashPassword("!example123")).hash,
     },
   });
+  await prisma.userType.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      id: 1,
+      name: "ADMIN",
+    },
+  });
+  await prisma.userType.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      id: 2,
+      name: "PARTNER",
+    },
+  });
+  await prisma.userType.upsert({
+    where: { id: 3 },
+    update: {},
+    create: {
+      id: 3,
+      name: "CLIENT",
+    },
+  });
 };
 main()
   .then(async () => {

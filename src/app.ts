@@ -31,6 +31,8 @@ const start = async () => {
         code: 422,
       });
     } else {
+      console.log({ error });
+
       res.send(error);
     }
   });
