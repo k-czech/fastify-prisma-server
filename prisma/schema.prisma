@@ -18,13 +18,13 @@ model User {
   lastname    String
   type        UserType? @relation(fields: [userTypeId], references: [id])
   userTypeId  Int?
-  phone       String?
-  vatNumber   String?
-  companyName String?
-  city        String?
-  street      String?
-  postalCode  String?
-  country     String?
+  phone       String @default("")
+  vatNumber   String @default("")
+  companyName String @default("")
+  city        String @default("")
+  street      String @default("")
+  postalCode  String @default("")
+  country     String @default("")
   isActive    Boolean?  @default(true)
   createdDate DateTime? @default(now())
   updatedDate DateTime? @updatedAt

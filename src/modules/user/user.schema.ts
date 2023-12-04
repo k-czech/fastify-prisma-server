@@ -30,10 +30,15 @@ export const userCore = {
 export const userDetails = {
   firstname: userCore.firstname,
   lastname: userCore.lastname,
-  phone: z.string({
-    required_error: "Phone is required",
-    invalid_type_error: "Phone is required",
-  }),
+  phone: z
+    .string({
+      required_error: "Phone is required",
+      invalid_type_error: "Phone is required",
+    })
+    .regex(
+      /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
+      "Phone is not valid"
+    ),
   vatNumber: z.custom<string>((value) => {
     if (typeof value !== "string") {
       return new Error("Vat number is wrong!");
@@ -66,21 +71,27 @@ export const userDetails = {
       required_error: "City is required",
       invalid_type_error: "City must be a string",
     })
-    .min(4, "City must be at least 4 characters long"),
+    .min(4, "City must be at least 4 characters long")
+    .max(50),
   street: z
     .string({
       required_error: "Street is required",
       invalid_type_error: "Street must be a string",
     })
-    .min(4, "Street must be at least 4 characters long"),
-  postalCode: z.string({
-    required_error: "Postal code is required",
-    invalid_type_error: "Postal code is required",
-  }),
-  country: z.string({
-    required_error: "Country is required",
-    invalid_type_error: "Country is required",
-  }),
+    .min(4, "Street must be at least 4 characters long")
+    .max(50),
+  postalCode: z
+    .string({
+      required_error: "Postal code is required",
+      invalid_type_error: "Postal code is required",
+    })
+    .regex(/^\d{2}-\d{3}$/, "Postal code is not valid"),
+  country: z
+    .string({
+      required_error: "Country is required",
+      invalid_type_error: "Country is required",
+    })
+    .min(4, "Country must be at least 4 characters long"),
 };
 
 export const userPassword = {
@@ -101,10 +112,6 @@ const userUpdateSchema = z.object({
   ...userDetails,
 });
 
-const userUpdateResponseSchema = z.object({
-  ...userDetails,
-});
-
 const userResponseSchema = UserId.extend({
   ...userCore,
 });
@@ -115,7 +122,6 @@ export const { schemas: userSchemas, $ref: userRef } = buildJsonSchemas(
   {
     userUpdateSchema,
     userResponseSchema,
-    userUpdateResponseSchema,
   },
   {
     $id: "userSchema",
